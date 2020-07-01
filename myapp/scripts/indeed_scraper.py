@@ -42,7 +42,7 @@ class Indeed_Scraper:
 
             self.makeFinal_postings()
 
-    def __init__(self,search, location, pages_to_scape):
+    def __init__(self,search, location,radius, pages_to_scape):
         self.pages = []
         self.titles = []
         self.locations = []
@@ -54,7 +54,7 @@ class Indeed_Scraper:
         self.final_postings=[]
 
         for i in range(1, pages_to_scape + 1):
-            url = ("https://be.indeed.com/jobs?q={}&l={}&sort=date&start={}0").format(quote_plus(search), location, i)
+            url = ("https://be.indeed.com/jobs?q={}&l={}&radius={}&sort=date&start={}0").format(quote_plus(search), location,radius, i)
             self.pages.append(url)
         self.scrape()
 

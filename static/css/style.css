@@ -41,3 +41,28 @@ main {
     left:0;
     width:100%;
 }
+
+
+/*---------------------------------
+  Custom scrollbar
+-----------------------------------*/
+
+ /* width */
+ ::-webkit-scrollbar {
+  width: 10px;
+  background-color: #F5F5F5;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #F5F5F5;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+
+
+  background-color:  #EE6E73;
+
+}
