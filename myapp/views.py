@@ -19,6 +19,7 @@ def new_search(request):
 
 
     stuff_for_frontend ={
+        'search' : search,
         'final_postings':scraper.final_postings,
         'error_not_found': False
 
