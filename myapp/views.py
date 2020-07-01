@@ -13,13 +13,13 @@ def new_search(request):
     models.Search.objects.create(search=search,location=location)
 
     scraper = Indeed_Scraper(search, location, 1)
+
     if scraper.results == False:
         return render(request, 'myapp/new_search.html', {'error_not_found':True})
 
-    test = scraper.titles[0]
+
     stuff_for_frontend ={
-        'search':scraper.titles[0],
-        'location':location,
+        'final_postings':scraper.final_postings,
         'error_not_found': False
 
     }

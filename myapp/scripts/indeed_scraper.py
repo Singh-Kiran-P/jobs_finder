@@ -3,6 +3,11 @@ from requests.compat import quote_plus
 import requests
 
 class Indeed_Scraper:
+    def makeFinal_postings(self):
+        for i in range(len(self.titles)):
+            self.final_postings.append((self.titles[i],self.locations[i],self.companys[i],
+                                        self.links[i],self.dates[i]))
+
     def scrape(self):
         for url in self.pages:
             page = requests.get(url)
@@ -16,6 +21,14 @@ class Indeed_Scraper:
                 self.titles.append(title.getText()[2:-6])
                 temp = title.findChild("a", recursive=False).get('href')
                 link = "https://be.indeed.com{}".format(temp)
+
+                # new_page = requests.get(link)
+                # soup = BeautifulSoup(new_page.text, 'html.parser')
+                # if(soup.find('div', class_='jobsearch-IndeedApplyButton-buttonWrapper')):
+                #     self.links.append(link)
+                # else:
+                #     new_link = soup.find('a',{'rel':'noopener'})
+                #     self.links.append(new_link.get('href'))
                 self.links.append(link)
 
             for location in soup.find_all('div', class_='recJobLoc'):
@@ -27,6 +40,8 @@ class Indeed_Scraper:
             for company in soup.find_all('span', {'class': "company"}):
                 self.companys.append(company.text[1:])
 
+            self.makeFinal_postings()
+
     def __init__(self,search, location, pages_to_scape):
         self.pages = []
         self.titles = []
@@ -35,6 +50,8 @@ class Indeed_Scraper:
         self.links = []
         self.dates = []
         self.results = True
+
+        self.final_postings=[]
 
         for i in range(1, pages_to_scape + 1):
             url = ("https://be.indeed.com/jobs?q={}&l={}&sort=date&start={}0").format(quote_plus(search), location, i)
