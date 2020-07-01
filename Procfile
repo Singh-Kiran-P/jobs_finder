@@ -1,0 +1,1 @@
+web: gunicorn jobs_finder.wsgi
