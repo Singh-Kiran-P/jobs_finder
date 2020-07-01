@@ -1,8 +1,6 @@
 from django.shortcuts import render
-from bs4 import BeautifulSoup as bs
-from requests.compat import quote_plus
 from . import models
-import requests
+from myapp.scripts.indeed_scraper import Indeed_Scraper
 
 BASE_INDEED_URL = "https://be.indeed.com/jobs?q={}&l={}&sort=date"
 # Create your views here.
@@ -14,16 +12,15 @@ def new_search(request):
     location = request.POST.get('location')
     models.Search.objects.create(search=search,location=location)
 
-    final_url = BASE_INDEED_URL.format(quote_plus(search),location)
-    response = requests.get(final_url)
+    scraper = Indeed_Scraper(search, location, 1)
+    if scraper.results == False:
+        return render(request, 'myapp/new_search.html', {'error_not_found':True})
 
-    data = response.text
-    soup = bs(data,'html.parser')
-    post_tiles = soup.find_all('h2',class_='title')
-    print(post_tiles)
+    test = scraper.titles[0]
     stuff_for_frontend ={
-        'search':search,
+        'search':scraper.titles[0],
         'location':location,
+        'error_not_found': False
 
     }
     return render(request,'myapp/new_search.html',stuff_for_frontend)
