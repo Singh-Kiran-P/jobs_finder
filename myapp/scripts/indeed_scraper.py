@@ -17,10 +17,10 @@ class Indeed_Scraper:
                 self.results = False
                 return
 
-            for title in soup.find_all('h2'):
-                self.titles.append(title.getText()[2:-6])
-                temp = title.findChild("a", recursive=False).get('href')
-                link = "https://be.indeed.com{}".format(temp)
+            for title in soup.find_all('a', class_='jobtitle'):
+                self.titles.append(title.text)
+                link = "https://be.indeed.com{}".format(title.get('href'))
+                self.links.append(link)
 
                 # new_page = requests.get(link)
                 # soup = BeautifulSoup(new_page.text, 'html.parser')
@@ -29,7 +29,6 @@ class Indeed_Scraper:
                 # else:
                 #     new_link = soup.find('a',{'rel':'noopener'})
                 #     self.links.append(new_link.get('href'))
-                self.links.append(link)
 
             for location in soup.find_all('div', class_='recJobLoc'):
                 self.locations.append(location.get('data-rc-loc'))

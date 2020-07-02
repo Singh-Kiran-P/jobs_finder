@@ -2,43 +2,48 @@
 {% block content %}
     {% if error_not_found %}
         <!-- ALERT COMPONENT -->
-      <div
-        class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative my-5"
-        role="alert"
-      >
-        <strong class="font-bold">Alert!</strong>
-        <span class="block sm:inline">Invaild Search</span>
-      </div>
+        <div
+                class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative my-5"
+                role="alert"
+        >
+            <strong class="font-bold">Alert!</strong>
+            <span class="block sm:inline">Invaild Search</span>
+        </div>
     {% endif %}
     {% if not error_not_found %}
         <!-- CARD COMPONENT -->
         <div class="max-w-sm mx-auto flex p-6 bg-white rounded-lg shadow-xl">
-          <div class="flex-shrink-0">
-            <img src="https://i.ibb.co/vX8pYzZ/logo-only.png" alt="" class="h-12 w-12" />
-          </div>
-          <div class="ml-6 pt-1">
-            <h4 class="text-xl text-gray-900">{{ search | title }}</h4>
-            <p class="text-base text-gray-600">Results that we found!</p>
-          </div>
+            <div class="flex-shrink-0">
+                <img src="https://i.ibb.co/vX8pYzZ/logo-only.png" alt="" class="h-12 w-12"/>
+            </div>
+            <div class="ml-6 pt-1">
+                <h4 class="text-xl text-gray-900">{{ search | title }}</h4>
+                <p class="text-base text-gray-600">Location = {{ location }}</p>
+                {% if radius != "" %}
+                    <p class="text-base text-gray-600">Radius = {{ radius }}</p>
+                {% endif %}
+            </div>
         </div>
 
         <div class="row">
-        {% for post in final_postings %}
-             <div class="card">
-                <div class="card-content">
-                  <span class="card-title activator grey-text text-darken-4">{{ post.0 }}<i class="material-icons right">more_vert</i></span>
-                    <p class="p1" >{{ post.1 }}</p>
-                  <p class="p2" ><a class="waves-effect waves-light btn" href="{{ post.3 }}"><i class="material-icons right">cloud</i>View Job</a></p>
+            {% for post in final_postings %}
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title activator grey-text text-darken-4 ">{{ post.0 }}<i
+                                class="material-icons right">more_vert</i></span>
+                        <p class="p1">{{ post.1 }}</p>
+                        <p class="p2"><a class="waves-effect waves-light btn" href="{{ post.3 }}"><i
+                                class="material-icons right">cloud</i>View Job</a></p>
 
 
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title grey-text text-darken-4">{{ post.0 }}<i class="material-icons right">close</i></span>
+                        <p>This job is provided by {{ post.2 }}
+                            <br> {{ post.4 }}</p>
+                    </div>
                 </div>
-                <div class="card-reveal">
-                  <span class="card-title grey-text text-darken-4">{{ post.0 }}<i class="material-icons right">close</i></span>
-                  <p>This job is provided by {{ post.2 }}
-                      <br> {{ post.4 }}</p>
-                </div>
-             </div>
-        {% endfor %}
+            {% endfor %}
         </div>
     {% endif %}
-{%  endblock content %}
+{% endblock content %}
